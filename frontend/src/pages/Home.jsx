@@ -1,9 +1,21 @@
-import React from 'react'
+import React from 'react';
+import { jwtDecode } from 'jwt-decode';
 
 const Home = () => {
-  return (
-    <div>Home</div>
-  )
-}
+  const token = localStorage.getItem('token');
+  const decoded = token ? jwtDecode(token) : null;
 
-export default Home
+  return (
+    <div>
+      <h1>Welcome Home</h1>
+      {decoded && (
+        <div>
+          <p><strong>ID:</strong> {decoded.id}</p>
+          <p><strong>Role:</strong> {decoded.role}</p>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default Home;

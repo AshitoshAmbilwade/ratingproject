@@ -12,7 +12,7 @@ import MyStores from "../pages/StoreOwner/MyStores";
 const routes = [
   { path: "/", element: <Home />, isProtected: false },
   { path: "/login", element: <Login />, isProtected: false },
-  { path: "/signup/:role", element: <Signup />, isProtected: false },
+  { path: "/signup", element: <Signup />, isProtected: false },
 
   // Admin Routes
   { path: "/admin/dashboard", element: <AdminDashboard />, isProtected: true },
