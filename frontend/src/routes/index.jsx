@@ -15,13 +15,26 @@ const routes = [
   { path: "/signup", element: <Signup />, isProtected: false },
 
   // Admin Routes
-  { path: "/admin/dashboard", element: <AdminDashboard />, isProtected: true },
-  { path: "/admin/users", element: <Users />, isProtected: true },
+  {
+    path: "/admin/dashboard",
+    element: <AdminDashboard />,
+    isProtected: true,
+    allowedRoles: ["ADMIN"],
+  },
 
-  // Store Owner Routes
-  { path: "/store/create", element: <CreateStore />, isProtected: true },
-  { path: "/store/my-stores", element: <MyStores />, isProtected: true },
-
+  // Add similar role-based control for store owner / user
+  {
+    path: "/store/create",
+    element: <CreateStore />,
+    isProtected: true,
+    allowedRoles: ["STORE_OWNER"],
+  },
+  {
+    path: "/store/my-stores",
+    element: <MyStores />,
+    isProtected: true,
+    allowedRoles: ["STORE_OWNER"],
+  },
   // User Routes
   //{ path: "/user/rate", element: <RateStore />, isProtected: true },
 
