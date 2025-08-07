@@ -3,12 +3,15 @@ import { Toaster } from 'react-hot-toast';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import routes from './routes';
 import ProtectedRoute from './components/ProtectedRoute';
+import Navbar from './components/Navbar';
 
 function App() {
   return (
-    <div className="mx-auto max-w-screen-2xl">
+    <div className="mx-auto ">
       <Toaster position="top-center" />
+      
       <BrowserRouter>
+      <Navbar />
         <Routes>
           {routes.map((route) => (
             <Route
