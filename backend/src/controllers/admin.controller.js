@@ -2,7 +2,8 @@
 import {
   getAllUsers,
   getAllStoresWithRatings,
-  getAllRatings
+  getAllRatings,
+  createStoreByAdmin
 } from '../services/admin.service.js';
 
 export const fetchAllUsers = async (req, res) => {
@@ -45,3 +46,18 @@ export const fetchAllRatings = async (req, res) => {
   }
 };
 
+export const createStoreByAdminController = async (req, res) => {
+  const { name, email, address } = req.body;
+
+  if (!name || !email || !address) {
+    return res.status(400).json({ message: 'All fields are required' });
+  }
+
+  try {
+    const newStore = await createStoreByAdmin({ name, email, address });
+    res.status(201).json({ message: 'Store created successfully', store: newStore });
+  } catch (err) {
+    console.error('Error:', err.message);
+    res.status(400).json({ message: err.message || 'Failed to create store' });
+  }
+};

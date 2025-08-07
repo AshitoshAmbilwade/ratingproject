@@ -21,14 +21,19 @@ const RatingStats = () => {
     fetchRatings();
   }, []);
 
-  if (loading) return <div>Loading rating stats...</div>;
+  if (loading) {
+    return <div className="text-gray-500">Loading rating stats...</div>;
+  }
 
   return (
-    <div className="bg-white shadow-md rounded-md p-4">
-      <h2 className="text-lg font-semibold mb-4">Rating Stats</h2>
-      <p className="flex items-center gap-2">
-        <FaStar /> Total Submitted Ratings: {ratings.length}
-      </p>
+    <div className="flex items-center bg-yellow-100 border border-yellow-300 rounded-md p-4 shadow-md">
+      <div className="p-3 bg-yellow-500 text-white rounded-full mr-4">
+        <FaStar size={24} />
+      </div>
+      <div>
+        <p className="text-sm text-gray-700">Total Submitted Ratings</p>
+        <h2 className="text-xl font-semibold text-yellow-800">{ratings.length}</h2>
+      </div>
     </div>
   );
 };

@@ -32,36 +32,72 @@ const UserList = () => {
   );
 
   return (
-    <div className="bg-white p-4 shadow-md rounded-md mt-6">
-      <h2 className="text-lg font-bold mb-4">All Users</h2>
-      
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-3 mb-4">
-        <input name="name" placeholder="Filter by name" onChange={handleChange} className="border px-2 py-1 rounded" />
-        <input name="email" placeholder="Filter by email" onChange={handleChange} className="border px-2 py-1 rounded" />
-        <input name="address" placeholder="Filter by address" onChange={handleChange} className="border px-2 py-1 rounded" />
-        <input name="role" placeholder="Filter by role" onChange={handleChange} className="border px-2 py-1 rounded" />
+    <div className="bg-white shadow-md rounded-lg p-6 mt-8">
+      <h2 className="text-2xl font-semibold text-gray-800 mb-6">User List</h2>
+
+      {/* Filters */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+        <input
+          name="name"
+          placeholder="Filter by name"
+          onChange={handleChange}
+          className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400"
+        />
+        <input
+          name="email"
+          placeholder="Filter by email"
+          onChange={handleChange}
+          className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400"
+        />
+        <input
+          name="address"
+          placeholder="Filter by address"
+          onChange={handleChange}
+          className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400"
+        />
+        <input
+          name="role"
+          placeholder="Filter by role"
+          onChange={handleChange}
+          className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400"
+        />
       </div>
 
-      <table className="w-full table-auto border-collapse">
-        <thead>
-          <tr className="bg-gray-100">
-            <th className="border px-3 py-2">Name</th>
-            <th className="border px-3 py-2">Email</th>
-            <th className="border px-3 py-2">Address</th>
-            <th className="border px-3 py-2">Role</th>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredUsers.map((user) => (
-            <tr key={user.id} className="text-center">
-              <td className="border px-3 py-2">{user.name}</td>
-              <td className="border px-3 py-2">{user.email}</td>
-              <td className="border px-3 py-2">{user.address}</td>
-              <td className="border px-3 py-2">{user.role}</td>
+      {/* Table */}
+      <div className="overflow-x-auto">
+        <table className="w-full min-w-[600px] text-sm text-gray-700">
+          <thead>
+            <tr className="bg-gray-100 text-gray-600 uppercase text-xs leading-normal">
+              <th className="py-3 px-6 text-left">Name</th>
+              <th className="py-3 px-6 text-left">Email</th>
+              <th className="py-3 px-6 text-left">Address</th>
+              <th className="py-3 px-6 text-left">Role</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody className="bg-white divide-y divide-gray-200">
+            {filteredUsers.map((user) => (
+              <tr key={user.id} className="hover:bg-gray-50 transition duration-150">
+                <td className="py-3 px-6">{user.name}</td>
+                <td className="py-3 px-6">{user.email}</td>
+                <td className="py-3 px-6">{user.address}</td>
+                <td className="py-3 px-6">
+                  <span
+                    className={`px-2 py-1 rounded-full text-xs font-medium ${
+                      user.role === 'ADMIN'
+                        ? 'bg-blue-100 text-blue-800'
+                        : user.role === 'STORE_OWNER'
+                        ? 'bg-yellow-100 text-yellow-800'
+                        : 'bg-green-100 text-green-800'
+                    }`}
+                  >
+                    {user.role}
+                  </span>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

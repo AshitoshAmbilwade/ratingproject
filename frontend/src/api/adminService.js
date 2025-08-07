@@ -27,6 +27,6 @@ export const addNewUser = async (userData) => {
 
 // Add new store
 export const addNewStore = async (storeData) => {
-  const response = await API.post('/admin/stores', storeData);
+  const response = await API.post('/admin/stores-create', storeData);
   return response.data;
 };
