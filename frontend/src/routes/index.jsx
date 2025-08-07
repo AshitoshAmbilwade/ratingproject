@@ -6,7 +6,7 @@ import Home from "../pages/Home";
 
 // Admin Pages
 import AdminDashboard from "../pages/Admin/Dashboard";
-import Users from "../pages/Admin/Users";
+
 
 // StoreOwner Pages
 import StoreOwnerDashboard from "../pages/StoreOwner/Dashboard";
@@ -24,12 +24,6 @@ const routes = [
   {
     path: "/admin/dashboard",
     element: <AdminDashboard />,
-    isProtected: true,
-    allowedRoles: ["ADMIN"],
-  },
-  {
-    path: "/admin/users",
-    element: <Users />,
     isProtected: true,
     allowedRoles: ["ADMIN"],
   },

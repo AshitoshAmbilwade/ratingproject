@@ -24,7 +24,7 @@ const Signup = () => {
     try {
       const res = await authService.signup(formData);
       toast.success(res.data.message);
-      navigate('/');
+      navigate('/login');
     } catch (err) {
       toast.error(err.response?.data?.message || 'Signup failed');
     }
