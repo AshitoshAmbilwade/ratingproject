@@ -3,7 +3,6 @@ import cors from 'cors';
 import authRoutes from './routes/auth.routes.js';
 import adminRoutes from './routes/admin.routes.js';
 import storeOwnerRoutes from './routes/storeOwner.routes.js';
-import ratingRoutes from './routes/rating.routes.js';
 import userRoutes from './routes/user.routes.js';
 export const app = express();
 app.use(cors());
@@ -17,7 +16,7 @@ import prisma from './config/db.js';
 app.use('/api/auth', authRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/store-owner', storeOwnerRoutes);
-app.use('/api/ratings', ratingRoutes);
+
 app.use('/api/user', userRoutes);
 
 app.get('/', (req, res) => {

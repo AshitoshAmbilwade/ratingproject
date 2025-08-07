@@ -1,9 +1,8 @@
-// src/controllers/rating.controller.js
 import prisma from '../config/db.js';
 import { ratingSchema } from '../validations/rating.validation.js';
 
+// Submit a new rating
 export const rateStore = async (req, res) => {
-      console.log('Rate store endpoint hit!');
   const { rating } = req.body;
   const { storeId } = req.params;
   const userId = req.user.id;
@@ -30,16 +29,50 @@ export const rateStore = async (req, res) => {
     }
 
     const newRating = await prisma.rating.create({
-      data: {
-        rating,
-        userId,
-        storeId
-      }
+      data: { rating, userId, storeId }
     });
 
     res.status(201).json({ message: 'Rating submitted successfully', rating: newRating });
   } catch (err) {
-    console.error('Error submitting rating:', err);
     res.status(500).json({ message: 'Internal Server Error' });
+  }
+};
+
+// Update rating
+export const updateRating = async (req, res) => {
+  const { rating } = req.body;
+  const { storeId } = req.params;
+  const userId = req.user.id;
+
+  try {
+    const updated = await prisma.rating.update({
+      where: {
+        userId_storeId: { userId, storeId }
+      },
+      data: { rating }
+    });
+
+    res.json({ message: 'Rating updated', rating: updated });
+  } catch (err) {
+    console.error('Rating update failed:', err);
+    res.status(500).json({ message: 'Failed to update rating' });
+  }
+};
+
+// Get user’s own rating for a specific store
+export const getUserRating = async (req, res) => {
+  const { storeId } = req.params;
+  const userId = req.user.id;
+
+  try {
+    const rating = await prisma.rating.findUnique({
+      where: {
+        userId_storeId: { userId, storeId }
+      }
+    });
+
+    res.json({ rating });
+  } catch (err) {
+    res.status(500).json({ message: 'Failed to fetch user rating' });
   }
 };

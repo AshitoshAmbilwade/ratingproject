@@ -1,60 +1,42 @@
 // src/controllers/user.controller.js
 import prisma from '../config/db.js';
-import { updateUserSchema } from '../validations/user.validation.js';
 
-export const getMyProfile = async (req, res) => {
+// Get all stores, optionally filtered by name/address
+export const getAllStores = async (req, res) => {
+  const { name, address } = req.query;
+
   try {
-    const user = await prisma.user.findUnique({
-      where: { id: req.user.id },
-      select: {
-        id: true,
-        name: true,
-        email: true,
-        role: true,
-        address: true,
-        createdAt: true
-      }
-    });
+    const filters = {};
 
-    if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+    if (name) {
+      filters.name = { contains: name, mode: 'insensitive' };
     }
 
-    res.json({ user });
-  } catch (err) {
-    res.status(500).json({ message: 'Error fetching user profile' });
-  }
-};
+    if (address) {
+      filters.address = { contains: address, mode: 'insensitive' };
+    }
 
-export const getMyRatings = async (req, res) => {
-  try {
-    const ratings = await prisma.rating.findMany({
-      where: { userId: req.user.id },
+    const stores = await prisma.store.findMany({
+      where: filters,
       include: {
-        store: { select: { id: true, name: true, email: true } }
+        ratings: true
       }
     });
 
-    res.json({ ratings });
-  } catch (err) {
-    res.status(500).json({ message: 'Error fetching your ratings' });
-  }
-};
+    // Calculate average rating per store
+    const storesWithRating = stores.map(store => {
+      const total = store.ratings.reduce((acc, r) => acc + r.rating, 0);
+      const avg = store.ratings.length ? (total / store.ratings.length).toFixed(1) : 'N/A';
 
-export const updateMyProfile = async (req, res) => {
-  const parsed = updateUserSchema.safeParse(req.body);
-  if (!parsed.success) {
-    return res.status(400).json({ error: parsed.error.errors[0].message });
-  }
-
-  try {
-    const updatedUser = await prisma.user.update({
-      where: { id: req.user.id },
-      data: parsed.data
+      return {
+        ...store,
+        averageRating: avg
+      };
     });
 
-    res.json({ message: 'Profile updated', user: updatedUser });
+    res.json({ stores: storesWithRating });
   } catch (err) {
-    res.status(500).json({ message: 'Failed to update profile' });
+    console.error(err);
+    res.status(500).json({ message: 'Failed to fetch stores' });
   }
 };

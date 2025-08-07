@@ -12,7 +12,7 @@ import Users from "../pages/Admin/Users";
 import StoreOwnerDashboard from "../pages/StoreOwner/Dashboard";
 import UpdatePassword from "../pages/UpdatePassword";
 
-// import RateStore from "../pages/user/RateStore"; // For future user role
+import UserDashboard from "../pages/User/Dashboard";
 
 const routes = [
   // Public Routes
@@ -50,13 +50,12 @@ const routes = [
   allowedRoles: ["ADMIN", "USER", "STORE_OWNER"],
 },
   // Future User Routes (if needed)
-  // {
-  //   path: "/user/rate",
-  //   element: <RateStore />,
-  //   isProtected: true,
-  //   allowedRoles: ["USER"],
-  // },
-
+ {
+  path: "/user/dashboard",
+  element: <UserDashboard />,
+  isProtected: true,
+  allowedRoles: ["USER"],
+},
   // Default Route
   { path: "*", element: <Navigate to="/" /> },
 ];

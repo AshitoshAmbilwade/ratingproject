@@ -1,18 +1,15 @@
-// src/routes/user.routes.js
 import express from 'express';
-import { getMyProfile, getMyRatings, updateMyProfile } from '../controllers/user.controller.js';
+import { getAllStores } from '../controllers/user.controller.js';
+import { rateStore, updateRating, getUserRating } from '../controllers/rating.controller.js';
 import { verifyToken } from '../middleware/auth.middleware.js';
 import { checkRole } from '../middleware/role.middleware.js';
 
 const router = express.Router();
 
-// 🧾 Get user's profile
-router.get('/me', verifyToken, checkRole(['USER']), getMyProfile);
+router.get('/stores', verifyToken, checkRole(['USER']), getAllStores);
 
-// ⭐ Get all ratings by the user
-router.get('/my-ratings', verifyToken, checkRole(['USER']), getMyRatings);
-
-// ✏️ Update user profile
-router.put('/update', verifyToken, checkRole(['USER']), updateMyProfile);
+router.post('/rate/:storeId', verifyToken, checkRole(['USER']), rateStore);
+router.put('/rate/:storeId', verifyToken, checkRole(['USER']), updateRating);
+router.get('/my-rating/:storeId', verifyToken, checkRole(['USER']), getUserRating);
 
 export default router;
