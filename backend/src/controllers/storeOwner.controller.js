@@ -8,25 +8,21 @@ export const createStore = async (req, res) => {
     return res.status(400).json({ error: parsed.error.errors[0].message });
   }
 
-  const { name, email, address } = parsed.data;
+  const { name, address } = parsed.data;
 
   try {
-    const storeExists = await prisma.store.findUnique({ where: { email } });
-    if (storeExists) {
-      return res.status(400).json({ message: 'Store already exists with this email' });
-    }
-
     const newStore = await prisma.store.create({
       data: {
         name,
-        email,
+        email: req.user.email,       // ✅ Use email from token
         address,
-        ownerId: req.user.id,  // comes from token
+        ownerId: req.user.id,        // ✅ Owner is also from token
       },
     });
 
     res.status(201).json({ message: 'Store created', store: newStore });
   } catch (err) {
+    console.error("Store creation error:", err); // ✅ Debug logs
     res.status(500).json({ error: 'Store creation failed' });
   }
 };
@@ -61,5 +57,31 @@ export const getStoreRatings = async (req, res) => {
     res.json({ ratings });
   } catch (err) {
     res.status(500).json({ error: 'Failed to fetch ratings' });
+  }
+};
+
+export const deleteStore = async (req, res) => {
+  const { storeId } = req.params;
+
+  try {
+    const store = await prisma.store.findUnique({
+      where: { id: storeId },
+    });
+
+    if (!store) {
+      return res.status(404).json({ message: 'Store not found' });
+    }
+
+    // Optional: ensure the logged-in store owner owns this store
+    if (store.ownerId !== req.user.id) {
+      return res.status(403).json({ message: 'Unauthorized to delete this store' });
+    }
+
+    await prisma.store.delete({ where: { id: storeId } });
+
+    res.json({ message: 'Store deleted successfully' });
+  } catch (err) {
+    console.error('Delete error:', err);
+    res.status(500).json({ error: 'Failed to delete store' });
   }
 };

@@ -45,9 +45,7 @@ export const createStoreByAdmin = async ({ name, email, address }) => {
   const existingStore = await prisma.store.findFirst({
     where: { email }
   });
-  if (existingStore) {
-    throw new Error('Store with this email already exists');
-  }
+  
 
   // Create store
   const newStore = await prisma.store.create({

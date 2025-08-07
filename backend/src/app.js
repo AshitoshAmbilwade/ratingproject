@@ -16,7 +16,7 @@ import prisma from './config/db.js';
 // app.use('/api', yourRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/admin', adminRoutes);
-app.use('/api/store', storeOwnerRoutes);
+app.use('/api/store-owner', storeOwnerRoutes);
 app.use('/api/ratings', ratingRoutes);
 app.use('/api/user', userRoutes);
 
