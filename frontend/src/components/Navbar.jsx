@@ -8,11 +8,12 @@ const Navbar = () => {
 
   const handleLogout = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('user'); // Optional: remove user info
     navigate('/login');
   };
 
   return (
-    <nav className="bg-gray-500 text-white px-4 py-3 flex justify-between items-center">
+    <nav className="bg-gray-700 text-white px-4 py-3 flex justify-between items-center">
       <Link to="/" className="text-xl font-bold">
         RatingApp
       </Link>
@@ -21,11 +22,19 @@ const Navbar = () => {
         {token ? (
           <>
             <Link
-              to="/dashboard" // We'll update this route logic later
+              to="/dashboard" // You can make this dynamic later
               className="bg-white text-blue-600 px-4 py-2 rounded hover:bg-gray-200 transition"
             >
               Dashboard
             </Link>
+
+            <Link
+              to="/update-password"
+              className="bg-white text-blue-600 px-4 py-2 rounded hover:bg-gray-200 transition"
+            >
+              Update Password
+            </Link>
+
             <button
               onClick={handleLogout}
               className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition"

@@ -10,6 +10,7 @@ import Users from "../pages/Admin/Users";
 
 // StoreOwner Pages
 import StoreOwnerDashboard from "../pages/StoreOwner/Dashboard";
+import UpdatePassword from "../pages/UpdatePassword";
 
 // import RateStore from "../pages/user/RateStore"; // For future user role
 
@@ -40,8 +41,14 @@ const routes = [
     isProtected: true,
     allowedRoles: ["STORE_OWNER"],
   },
-  
 
+  //update password
+  {
+  path: "/update-password",
+  element: <UpdatePassword />,
+  isProtected: true,
+  allowedRoles: ["ADMIN", "USER", "STORE_OWNER"],
+},
   // Future User Routes (if needed)
   // {
   //   path: "/user/rate",

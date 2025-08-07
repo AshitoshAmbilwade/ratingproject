@@ -1,7 +1,6 @@
 // src/pages/StoreOwner/Dashboard.jsx
 import React from 'react';
 import MyStores from './MyStores';
-import PasswordUpdate from './PasswordUpdate';
 import CreateStore from './CreateStore';
 
 const StoreOwnerDashboard = () => {
@@ -11,7 +10,7 @@ const StoreOwnerDashboard = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <MyStores />
-        <PasswordUpdate />
+        
         <CreateStore />
       </div>
     </div>
